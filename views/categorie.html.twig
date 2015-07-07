@@ -1,0 +1,24 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Categorie{% endblock %}
+
+{% block content %}
+<div id="content">
+	<h2 class="text-center">{{ nomCategorie }}</h2>
+	<div class="row">
+	{% for produit in produits %}
+	
+		<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+			<div class="thumbnail">
+				<div class="caption"> <h3 class="text-center"> {{ produit.nom }} </h3> </div>
+				<a href="/produit/{{ produit.id }}">
+					<img class="img-responsive" src="../images/produits/{{ produit.image }}" alt="{{ produit.nom }}" title="{{ produit.nom }}"/>
+				</a>
+			</div>
+		</div>
+		{% else %}
+			Pas de produit pour le moments. Désolé pour le dérangement
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}

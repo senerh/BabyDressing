@@ -1,0 +1,21 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}profil{% endblock %}
+
+{% block content %}
+<article>	
+	<div id="content">
+		<h3 class="text-center"> Achat de {{ app.security.token.user.prenom }} </h3>
+		<div class="jumbotron">
+		<h2> Vous avez passé {{ nombre }} commande(s) </h2>
+			<div class="row">
+				{% for achat in achats %}
+						  commande du {{ achat.AchatDate }} pour un total de {{ achat.AchatTotal }} !<br/>
+				{% else %}
+					Vous n'avez pas encore fait d'achat
+				{% endfor %}				
+			</div>
+		</div>
+	</div>
+</article>
+{% endblock %}

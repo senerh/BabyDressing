@@ -1,0 +1,29 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Panier{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Mon panier</h2>
+	{% if produits is empty %}
+		<div>Votre panier est vide !</div>
+	{% else %}
+		<div class="row">
+		{% for produit in produits %}
+			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+				<div class="thumbnail">
+					<div class="caption"> <h3 class="text-center">{{ produit.nom }} <small>{{ "%.2f €"|format(produit.prix) }}</small></h3></div>
+					<a href="/produit/{{ produit.id }}">
+						<img class="img-responsive" src="../images/produits/{{ produit.image }}" alt="{{ produit.nom }}" title="{{ produit.nom }}"/>
+					</a>
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+		<a type="submit" href="/panier/{{ app.security.token.user.id }}" class="btn btn-primary">
+			Acheter
+		</a>
+		
+		<h3 class="text-left">Total : {{ "%.2f €"|format(prix) }}</h3>
+		
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}{{ produit.nom }}{% endblock %}
+
+
+{% block content %}
+<div id="content">
+	<div class="jumbotron">
+		<div class="row">
+			
+			<div class="col-lg-6 col-md-5 col-sm-7 col-xs-12">
+				<a href="#" id='modal-launcher' data-toggle="modal" data-target="#produit-modal">
+					<img class="img-responsive" src="../images/produits/{{ produit.image }}" alt="{{ produit.nom }}" title="{{ produit.nom }}" id="imgAlbum"/>
+				</a>
+			</div>	
+				
+				<div class="modal fade" id="produit-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+   		 					<div class="modal-content">
+      							<div class="modal-header produit_modal_header">
+        							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        							<h2 class="modal-title" id="myModalLabel">Aperçu du produit</h2>
+      							</div>
+      							        <div class="form-group">
+            								<img class="img-responsive" src="../images/produits/{{ produit.image }}" alt="{{ produit.nom }}" title="{{ produit.nom }}" id="imgAlbum"/>
+        								</div>
+    						</div>
+    					</div>
+    			</div>
+				
+			
+			<div class="col-lg-6 col-md-7 col-sm-5 col-xs-12">
+				<h2>
+					{{ produit.nom }}<br/>
+					
+					<small>{{ produit.description }}</small><br/>
+					<a href="/categorie/{{ produit.categorie }}">{{ nomCategorie }}</a><br/>
+					<small>{{ "%.2f €"|format(produit.prix) }}</small><br/>
+					<small>Article proposé par : {{ nomAuteur.prenom }} {{ nomAuteur.nom }}</small><br/>
+				</h2>
+				{% if app.security.token and is_granted('IS_AUTHENTICATED_FULLY') %}
+					{% if isOrdered == false %}
+						<a type="submit" href="/panier/ajouter/{{ app.security.token.user.id }}/{{ produit.id }}" class="btn btn-primary">
+							Ajouter au panier
+						</a>
+					{% else %}
+						<a type="submit" href="/panier/enlever/{{ app.security.token.user.id }}/{{ produit.id }}" class="btn btn-danger">
+							Enlever du panier
+						</a>
+					{% endif %}
+					<br /><br />
+					{% for flashMessage in app.session.flashbag.get('panier') %}
+					<div class="alert alert-success">
+						{{ flashMessage }}
+					</div>
+					{% endfor %}
+					{% for flashMessage in app.session.flashbag.get('panier_error') %}
+					<div class="alert alert-danger">
+						{{ flashMessage }}
+					</div>
+					{% endfor %}
+                {% else %}
+					<a id='modal-launcher' class="btn btn-primary" data-toggle="modal" data-target="#login-modal">
+					  <span type="submit" class="glyphicon glyphicon-shopping-cart"></span> Ajouter au panier
+					</a>
+                {% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
